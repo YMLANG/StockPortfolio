@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Catamaran|Gloria+Hallelujah" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+html, body{
+    height: 100%;
+    background: #F7A278;
+    background: linear-gradient(to bottom right, #F7A278, #E56399);
+}
+
+div.navSize {
+    font-size: 17px;
+}
+
+input{
+border-radius: 30px;
+}
+
+.scrollable-panel{
+      height: 625px;
+      overflow-y:scroll;
+      width:100%;
+      }
+
+.panel-tabs {
+    position: relative;
+    bottom: 30px;
+    clear:both;
+    border-bottom: 1px solid transparent;
+}
+
+.panel-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+}
+
+.panel-tabs > li > a {
+    margin-right: 2px;
+    margin-top: 4px;
+    line-height: .85;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    color: #ffffff;
+}
+
+.panel-tabs > li > a:hover {
+    border-color: transparent;
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.panel-tabs > li.active > a,
+.panel-tabs > li.active > a:hover,
+.panel-tabs > li.active > a:focus {
+    color: #fff;
+    cursor: default;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: rgba(255,255,255, .23);
+    border-bottom-color: transparent;
+}
+
+#chartdiv {
+	width	: 100%;
+	height	: 500px;
+}
+
+#prediction1 {
+    width   : 100%;
+    height  : 500px;
+}
+
+#prediction2 {
+    width   : 100%;
+    height  : 500px;
+}
+
+#prediction3 {
+    width   : 100%;
+    height  : 500px;
+}
+
+#prediction4 {
+    width   : 100%;
+    height  : 500px;
+}
+
+div.invi{
+  visibility: hidden;
+}
+
+</style>
+
+<!-- graph -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+<script>
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 1,
+        "shadowAlpha": 0
+    },
+    "graphs": [{
+        "id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "Value",
+        "useLineColorForBulletBorder": true,
+        "valueField": "value",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+    "dataProvider": {{chart_data|tojson}}
+});
+
+chart.addListener("rendered", zoomChart);
+
+zoomChart();
+
+function zoomChart() {
+    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+}
+
+//prediction1
+var chart2 = AmCharts.makeChart("prediction1", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 1,
+        "shadowAlpha": 0
+    },
+    "graphs": [{
+        "id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "Original Value",
+        "useLineColorForBulletBorder": true,
+        "valueField": "value",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+
+    }, {"id": "g2",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "MA",
+        "useLineColorForBulletBorder": true,
+        "valueField": "MA_10",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+    "dataProvider": {{pred_chart.MA|safe}}
+});
+
+chart2.addListener("rendered", zoomChart2);
+
+zoomChart2();
+
+function zoomChart2() {
+    chart2.zoomToIndexes(chart2.dataProvider.length - 40, chart2.dataProvider.length - 1);
+}
+
+//prediction2
+var chart3 = AmCharts.makeChart("prediction2", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 1,
+        "shadowAlpha": 0
+    },
+    "graphs": [{
+        "id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "Original Value",
+        "useLineColorForBulletBorder": true,
+        "valueField": "value",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+
+    }, {"id": "g2",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "EMA",
+        "useLineColorForBulletBorder": true,
+        "valueField": "EMA_10",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+    "dataProvider": {{pred_chart.EMA|safe}}
+});
+
+chart3.addListener("rendered", zoomChart3);
+
+zoomChart3();
+
+function zoomChart3() {
+    chart3.zoomToIndexes(chart3.dataProvider.length - 40, chart3.dataProvider.length - 1);
+}
+
+//prediction3
+var chart4 = AmCharts.makeChart("prediction3", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 1,
+        "shadowAlpha": 0
+    },
+    "graphs": [{"id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "MACD",
+        "useLineColorForBulletBorder": true,
+        "valueField": "MACD",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+
+    }, {"id": "g2",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "Signal",
+        "useLineColorForBulletBorder": true,
+        "valueField": "MACDsignal",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+
+    }, {"id": "g3",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "Diff",
+        "useLineColorForBulletBorder": true,
+        "valueField": "MACDdiff",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+    "dataProvider": {{pred_chart.MACD|safe}}
+});
+
+chart4.addListener("rendered", zoomChart4);
+
+zoomChart4();
+
+function zoomChart4() {
+    chart4.zoomToIndexes(chart4.dataProvider.length - 40, chart4.dataProvider.length - 1);
+}
+
+//prediction4
+var chart5 = AmCharts.makeChart("prediction4", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+    "mouseWheelZoomEnabled":true,
+    "dataDateFormat": "YYYY-MM-DD",
+    "valueAxes": [{
+        "id": "v1",
+        "axisAlpha": 0,
+        "position": "left",
+        "ignoreAxisWidth":true
+    }],
+    "balloon": {
+        "borderThickness": 1,
+        "shadowAlpha": 0
+    },
+    "graphs": [{"id": "g1",
+        "balloon":{
+          "drop":true,
+          "adjustBorderColor":false,
+          "color":"#ffffff"
+        },
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "MOM",
+        "useLineColorForBulletBorder": true,
+        "valueField": "Momentum_10",
+        "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+
+    }],
+    "chartScrollbar": {
+        "graph": "g1",
+        "oppositeAxis":false,
+        "offset":30,
+        "scrollbarHeight": 80,
+        "backgroundAlpha": 0,
+        "selectedBackgroundAlpha": 0.1,
+        "selectedBackgroundColor": "#888888",
+        "graphFillAlpha": 0,
+        "graphLineAlpha": 0.5,
+        "selectedGraphFillAlpha": 0,
+        "selectedGraphLineAlpha": 1,
+        "autoGridCount":true,
+        "color":"#AAAAAA"
+    },
+    "chartCursor": {
+        "pan": true,
+        "valueLineEnabled": true,
+        "valueLineBalloonEnabled": true,
+        "cursorAlpha":1,
+        "cursorColor":"#258cbb",
+        "limitToGraph":"g1",
+        "valueLineAlpha":0.2,
+        "valueZoomable":true
+    },
+    "valueScrollbar":{
+      "oppositeAxis":false,
+      "offset":50,
+      "scrollbarHeight":10
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+    },
+    "dataProvider": {{pred_chart.MOM|safe}}
+});
+
+chart5.addListener("rendered", zoomChart5);
+
+zoomChart5();
+
+function zoomChart5() {
+    chart5.zoomToIndexes(chart5.dataProvider.length - 40, chart5.dataProvider.length - 1);
+}
+</script>
+
+</head>
+<body>
+   <div class="navSize">
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/index">
+          <img src="/static/home2.png" width="22" height="22" class="d-inline-block align-top" alt="">
+        </a>
+      <a class="navbar-brand" href="/index">Niulio
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li><a href="/stock">Stock</a></li>
+      </ul>
+      <ul class="nav navbar-nav mr-auto navbar-right">
+        <li><a href="/about">About</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        {% if check_login %}
+        <li><div class="invi"><a href="#">Log innnni</a></div></li>
+        <li><a href="/logout">Log out</a></li>
+        {% else %}
+        <li><a href="/">Log in</a></li>
+        <li><a href="/sign_up">Sign up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+</nav>
+
+    </div>
+<br>
+
+<div class="container">
+    <div class="panel panel-warning">
+        <div class="panel-heading">Message Board</div>
+        <div class="panel-body">
+            {% if message %}
+                {{ message }}
+            {% endif %}
+        </div>
+    </div>
+ </div>
+
+<Form method="POST">
+    {% if stock_data %}   
+    <div class="container">
+    	<div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><font size = "5">{{stock_data.desc}} </font><font size = "3">({{stock_data.name}})</font></h3>
+                    <span class="pull-right">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs">
+
+                        	<li class="dropdown">
+                            <button type="button" class="btn btn-success btn-circle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i></button>
+                            <ul class="dropdown-menu">
+                            <li><a href="#tab1" data-toggle="tab">Summary</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Chart</a></li>
+                            <li><a href="#tab3" data-toggle="tab">MA</a></li>
+                            <li><a href="#tab4" data-toggle="tab">EMA</a></li>
+                            <li><a href="#tab5" data-toggle="tab">MACD</a></li>
+                            <li><a href="#tab6" data-toggle="tab">MOM</a></li>
+                        	</ul>
+                    		</li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="panel-body scrollable-panel">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    <div class="col col-xs-6">
+                                                        <h3 class="panel-title">Stock Info</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body table-responsive">
+                                                <table class="table table-striped table-bordered table-list">
+                                                    <thead>
+                                                        <tr>
+
+                                                        <th>Last Price</th>
+                                                        <th>Change</th>
+                                                        <th>Percent Change</th>
+                                                        <th>Currency</th>
+                                                        <th>Open</th>
+                                                        <th>High</th>
+                                                        <th>Low</th>
+                                                        <th>Time</th>
+                                                        <th>Volume</th>
+                                                        <th>Sector</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="myTable">
+
+                                                    <tr>
+                                                     <td><p class="card-text"><b>{{stock_data.close}}</b></p></td>
+
+                                                    {% if stock_data.change < 0 %}
+                                                        <td><font color="red"><p class="card-text">
+                                                        <b>{{stock_data.change}}</b></p></font></td>
+                                                    {% else %}
+                                                        <td><font color="green"><p class="card-text">
+                                                        <b>{{stock_data.change}}</b></p></font></td>
+                                                    {% endif %}
+
+                                                    {% if stock_data.percent_change < 0 %}
+
+                                                        <td><font color="red"><p class="card-text">
+                                                        <b>{{stock_data.percent_change}}</b></p></font></td>
+                                                    {% else %}
+                                                        <td><font color="green"><p class="card-text">
+                                                        <b>{{stock_data.percent_change}}</b></p></font></td>
+                                                    {% endif %}
+                                                    <td><p class="card-text">USD</p></td>
+                                                    <td><p class="card-text">{{stock_data.open}}</p></td>
+                                                    <td><p class="card-text">{{stock_data.high}}</p></td>
+                                                    <td><p class="card-text">{{stock_data.low}}</p></td>
+                                                    <td><p class="card-text">{{stock_data.Last_Refreshed}} {{stock_data.Time_Zone}}</p></td>
+                                                    <td><p class="card-text">{{stock_data.volume}}</p></td>
+                                                    <td><p class="card-text">{{stock_data.sector}}</a></p></td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    <div class="col col-xs-6">
+                                                        <h3 class="panel-title">Prediction Summary</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body table-responsive">
+                                                <table class="table table-striped table-bordered table-list">
+                                                    <thead>
+                                                        <tr>
+
+                                                        <th>Prediction</th>
+                                                        <th>Accuracy</th>
+                                                        <th>Data Size</th>
+                                                        <th>Time Taken</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="myTable">
+
+                                                        <tr>
+                                                        <td><p class="card-text">
+                                                        
+                                                        {% if prediction.pred == 'RISE'%}
+                                                            The price will <b><font color="Green">{{prediction.pred}}</font></b>
+                                                        {% elif prediction.pred == 'FALL'%}
+                                                            The price will <b><font color="red">{{prediction.pred}}</font></b>
+                                                        {% else %}
+                                                            {{prediction.pred}}
+
+                                                        {% endif %}
+                                                        </a></p></td>
+                                                        <td><p class="card-text">{{prediction.acc}}%</a></p></td>
+                                                        <td><p class="card-text">{{prediction.size}}</a></p></td>
+                                                        <td><p class="card-text">{{prediction.time}}s</a></p></td>
+
+                                                      </tr>
+                            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>     
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tab2">
+                        	<div class="pull-right">
+                        		<a href="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={{stock_data.name}}&outputsize=full&apikey=3T6KRZSKKLGLUFOL&datatype=csv" class="btn btn-primary">Historical Data</a>
+                        	</div>
+                            <h4>{{stock_data.desc}}</h4>
+                            <div id="chartdiv"></div>
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                        	<div class="pull-right">
+                        		<a href="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={{stock_data.name}}&outputsize=full&apikey=3T6KRZSKKLGLUFOL&datatype=csv" class="btn btn-primary">Historical Data</a>
+                        	</div>
+                            <h4><a href="https://www.investopedia.com/terms/m/movingaverage.asp">Moving Average Chart</a></h4>
+                            <div id="prediction1"></div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
+                        	<div class="pull-right">
+                        		<a href="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={{stock_data.name}}&outputsize=full&apikey=3T6KRZSKKLGLUFOL&datatype=csv" class="btn btn-primary">Historical Data</a>
+                        	</div>
+                            <h4><a href="https://www.investopedia.com/terms/e/ema.asp">Exponential Moving Average Chart</a></h4>
+                            <div id="prediction2"></div>
+                        </div>
+                        <div class="tab-pane" id="tab5">
+                        	<div class="pull-right">
+                        		<a href="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={{stock_data.name}}&outputsize=full&apikey=3T6KRZSKKLGLUFOL&datatype=csv" class="btn btn-primary">Historical Data</a>
+                        	</div>
+                            <h4><a href="https://www.investopedia.com/terms/m/macd.asp">Moving Average Convergence Divergence Chart</a></h4>
+                            <div id="prediction3"></div>
+                        </div>
+                        <div class="tab-pane" id="tab6">
+                        	<div class="pull-right">
+                        		<a href="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={{stock_data.name}}&outputsize=full&apikey=3T6KRZSKKLGLUFOL&datatype=csv" class="btn btn-primary">Historical Data</a>
+                        	</div>
+                            <h4><a href="https://www.investopedia.com/terms/m/momentum.asp">Momentum Chart</a></h4>
+                            <div id="prediction4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    	</div>
+    </div>
+    {% endif %}
+</Form>
+</body>
+</html>

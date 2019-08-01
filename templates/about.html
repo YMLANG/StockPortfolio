@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Catamaran|Gloria+Hallelujah" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+html, body{
+    height: 100%;
+    background: #F7A278;
+    background: linear-gradient(to bottom right, #F7A278, #E56399);
+}
+
+div.navSize {
+    font-size: 17px;
+}
+
+div.invi{
+  visibility: hidden;
+}
+
+input{
+border-radius: 30px;
+}
+
+.scrollable-panel{
+      height: 700px;
+      overflow-y:scroll;
+      width:100%;
+      }
+
+</style>
+</head>
+<body>
+   <div class="navSize">
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+          <img src="/static/home2.png" width="22" height="22" class="d-inline-block align-top" alt="">
+        </a>
+      <a class="navbar-brand" href="/">Niulio
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li><a href="stock">Stock</a></li>
+      </ul>
+      <ul class="nav navbar-nav mr-auto navbar-right">
+
+        <li><a href="/about">About</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      	{% if check_login %}
+        <li><div class="invi"><a href="#">Log innnni</a></div></li>
+        <li><a href="/logout">Log out</a></li>
+        {% else %}
+        <li><a href="/">Log in</a></li>
+        <li><a href="/sign_up">Sign up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+</nav>
+
+    </div>
+<br>
+
+<Form method="POST">
+
+
+  {% if message %}
+    {{ message }}
+  {% endif %}
+
+  <div class="container">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3>About <div class="pull-right">
+ </div>
+  </h3>
+
+  </div>
+
+    <div class="panel-body scrollable-panel">
+
+<!-- Container Here -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-11">
+
+            <div class="panel panel-default panel-table">
+              <div class="panel-body table-responsive"><br>
+                <!DOCTYPE html>
+                <html>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                <body>
+
+                <div class="w3-container">
+
+                  <div class="w3-row">
+                    <a href="javascript:void(0)" onclick="openCity(event, 'A');">
+                      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Instruction</div>
+                    </a>
+                    <a href="javascript:void(0)" onclick="openCity(event, 'B');">
+                      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Developers</div>
+                    </a>
+                    <a href="javascript:void(0)" onclick="openCity(event, 'C');">
+                      <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Specifications</div>
+                    </a>
+                  </div>
+
+                  <div id="A" class="w3-container name" style="display:default">
+                    <br><h3>How to use Niulio!</h3><br>
+                    <p>
+                      <h4>Running the application</h4>
+                      1. Ensure the requirements.txt is present.<br>
+                      2. Ensure python3.6 as a default for python3 "alias python3=python3.6"<br>
+                      3. Install all python requirements "pip3 install -r requirements.txt"<br>
+                      4. (Optional) Do "chmod +x run.py" to simplify the running method.<br>
+                      5. Now run the service! "python3 run.py" or "./run.py" (if you had done the step 4)<br><br>
+
+
+                      <h4>Sign up</h4>
+                      Create a new account that you could personally use to enjoy our Niulio service.<br><br>
+
+                      <h4>Portfolio</h4>
+                      Create or delete portfolio where you could add any stock/symbol of your choices and browse any information provided along with it.<br><br>
+
+                      <h4>Stock</h4>
+                      Browse any of your preferred stocks and gain information and predictions provided. Additionally, utilize the charts given to maximize your experience and satisfaction.<br><br>
+
+                      <h4>FAQ</h4>
+                      Have your common questions or problems answered that you may experienced with satisfactory results while using our service.<br><br>
+
+                      </p>
+                  </div>
+
+                  <div id="B" class="w3-container name" style="display:none">
+                    <br><h3>Team YLWL</h3>
+                    <p>
+
+                      <div class="panel-body table-responsive">
+                        <div class="panel-body table-responsive">
+                          <table class="table table-striped table-bordered table-list">
+                            <thead>
+                              <tr>
+
+                                  <th>Name</th>
+                                  <th>z Number</th>
+
+                              </tr>
+                            </thead>
+                            <tbody id="myTable">
+
+                                  <tr>
+                                  <td><p class="card-text">Zhengting Li (Scrum Master)</a></p></td>
+                                  <td><p class="card-text">z5123591</a></p></td>
+                                  </tr>
+
+                                  <tr>
+                                  <td><p class="card-text">Irvin Deddy Yonowiharjo</a></p></td>
+                                  <td><p class="card-text">z5042628</a></p></td>
+                                  </tr>
+
+                                  <tr>
+                                  <td><p class="card-text">Tung-Han Wu</a></p></td>
+                                  <td><p class="card-text">z5042673</a></p></td>
+                                  </tr>
+
+                                  <tr>
+                                  <td><p class="card-text">Yiming Lang</a></p></td>
+                                  <td><p class="card-text">z5036406</a></p></td>
+                                  </tr>
+
+                              </tbody>
+                         </table>
+
+                  </p>
+                  </div>
+                </div>
+                </div>
+
+                  <div id="C" class="w3-container name" style="display:none">
+                    <br><h3><p>Project requirements</h3>
+                    <h4><a href="http://www.cse.unsw.edu.au/~cs9900/18s1/proj3.html">Stock portfolio management</a></h4><br>
+
+                    <h3>Project specifications</h3>
+                    <b>Language:</b> Python 3.6<br>
+                    <b>Code Management:</b> GitHub<br>
+                    <b>SCRUM:</b> Trello<br>
+                    <b>Front End:</b> Html, CSS, Javascript, Bootstrap, jinja2<br>
+                    <b>Back End:</b> flask, flask_login, sqlite3<br>
+                    <b>Python Libraries:</b> quandl, pandas, numpy, sklearn<br>
+                  </p>
+                  </div>
+
+                <script>
+                function openCity(evt, cityName) {
+                  var i, x, tablinks;
+                  x = document.getElementsByClassName("name");
+                  for (i = 0; i < x.length; i++) {
+                     x[i].style.display = "none";
+                  }
+                  tablinks = document.getElementsByClassName("tablink");
+                  for (i = 0; i < x.length; i++) {
+                     tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+                  }
+                  document.getElementById(cityName).style.display = "block";
+                  evt.currentTarget.firstElementChild.className += " w3-border-red";
+                }
+                </script>
+
+                </body>
+                </html>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</Form>
+</body>
+</html>

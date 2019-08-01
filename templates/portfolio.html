@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Catamaran|Gloria+Hallelujah" rel="stylesheet">
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+html, body{
+    height: 100%;
+    background: #F7A278;
+    background: linear-gradient(to bottom right, #F7A278, #E56399);
+}
+
+div.navSize {
+    font-size: 17px;
+}
+.scrollable-panel{
+      height: 600px;
+      overflow-y:scroll;
+      width:100%;
+      }
+
+div.invi{
+  visibility: hidden;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Nav Bar -->
+<div class="navSize">
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/index">
+          <img src="/static/home2.png" width="22" height="22" class="d-inline-block align-top" alt="">
+        </a>
+      <a class="navbar-brand" href="/index">Niulio
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li><a href="/stock">Stock</a></li>
+      </ul>
+      <ul class="nav navbar-nav mr-auto navbar-right">
+        <li><a href="/about">About</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><div class="invi"><a href="#">Log innnni</a></div></li>
+        <li><a href="/logout">Log out</a></li>
+      </ul>
+    </div>
+
+</nav>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <div class="panel panel-warning">
+      <div class="panel-heading">Message Board</div>
+      <div class="panel-body">
+        {% if message %}
+        {{ message }}
+    {% endif %}
+  </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Form -->
+<Form method="POST">
+<div class="container">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3>Portfolio <div class="pull-right">
+  <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#myModal" ><i class="glyphicon glyphicon-plus"></i></button>
+  <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#deleteModal"><i class="glyphicon glyphicon-trash"></i></button>
+ </div>
+  </h3>
+
+  </div>
+
+    <div class="panel-body scrollable-panel">
+<!-- Container Here -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-11">
+
+            <div class="panel panel-default panel-table">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col col-xs-6">
+                    <h3 class="panel-title">Portfolio List</h3>
+                  </div>
+                  <div class="col col-xs-6 text-right">
+
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body table-responsive">
+                <table class="table table-striped table-bordered table-list">
+
+                  <tbody id="myTable">
+                      {% if get_port %}
+                        {% for each_port in get_port %}
+                          <tr>
+
+                            <td>  <p class="card-text"><input name="delete_port" type="checkbox" value="{{each_port.port_name}}+id={{each_port.port_id}}">
+                            <a href="/portfolio/{{each_port.port_name}}+?pid={{each_port.port_id}}" >{{each_port.port_name}}</a></p> </td>
+                          </tr>
+                        {% endfor %}
+                      {% else %}
+                        <p class="card-text">You do not have any portfolio. Create a <a data-toggle="modal" data-target="#myModal" >new</a> one !</p>
+                      {% endif %}
+
+                      </tbody>
+                </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Create portfolio</h4>
+        </div>
+        <div class="modal-body">
+            <!-- <p>TO DO</p> -->
+        <form>
+            <div class="form-group">
+              <label for="Input">Portfolio Name</label>
+                <input name="new_port_name" class="form-control" placeholder="Enter name (Must not contains symbols (e.g. !@#$%^&*))" >
+            </div>
+      <!-- Scrolling tab -->
+        <form role="form">
+
+    <div class="modal-footer">
+      <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
+        </div>
+        <div class="btn-group btn-delete hidden" role="group">
+          <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Cancel</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button name="submit_port" value="create_port" type="submit" class="btn btn-danger btn-hover-green" >Confirm</button>
+        </div>
+      </div>
+    </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Delete Portfolio</h4>
+        </div>
+        <div class="modal-body">
+        <form>
+        <form role="form">
+
+    <div class="modal-footer">
+      <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
+        </div>
+        <div class="btn-group btn-delete hidden" role="group">
+          <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Cancel</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button name="submit_port" value="delete_port" type="submit" class="btn btn-danger btn-hover-green" >Confirm</button>
+        </div>
+      </div>
+    </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+</Form>
+</body>
+</html>

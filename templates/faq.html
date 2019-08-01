@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Catamaran|Gloria+Hallelujah" rel="stylesheet">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+html, body{
+    height: 100%;
+    background: #F7A278;
+    background: linear-gradient(to bottom right, #F7A278, #E56399);
+}
+
+l {
+    font-size: 15px;
+}
+
+w {
+    font-size: 20px;
+}
+
+div.navSize {
+    font-size: 17px;
+}
+
+div.invi{
+  visibility: hidden;
+}
+
+input{
+border-radius: 30px;
+}
+
+p.one {
+    border-left: 10px solid rgb(0, 100, 150);
+    background-color: lightblue;
+    border-radius: 12px;
+    padding-top: 6px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+}
+
+.scrollable-panel{
+      height: 700px;
+      overflow-y:scroll;
+      width:100%;
+      }
+
+</style>
+</head>
+
+<!-- Nav Bar -->
+<body>
+<div class="navSize">
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+          <img src="/static/home2.png" width="22" height="22" class="d-inline-block align-top" alt="">
+      </a>
+      <a class="navbar-brand" href="/">Niulio
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li><a href="stock">Stock</a></li>
+      </ul>
+      <ul class="nav navbar-nav mr-auto navbar-right">
+        <li><a href="/about">About</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        {% if check_login %}
+        <li><div class="invi"><a href="#">Log innnni</a></div></li>
+        <li><a href="/logout">Log out</a></li>
+        {% else %}
+        <li><a href="/">Log in</a></li>
+        <li><a href="/sign_up">Sign up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</div>
+<br>
+
+
+<!-- Page Form -->
+<Form method="POST">
+<div class="container">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3>FAQ <div class="pull-right">
+ </div>
+  </h3>
+
+  </div>
+
+    <div class="panel-body scrollable-panel">
+
+<!-- Container Here -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-11">
+
+            <div class="panel panel-default panel-table">
+              <div class="panel-body table-responsive"><br>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                      
+                      <body>
+
+                      <div class="w3-container">
+                        <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                        
+                          <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo">Q: I clicked one of my portfolio and it loads really slow, why?
+                </button>
+                		<div id="demo" class="collapse">
+                		<br>
+                			Ans: This is mostly the API issue where the API itself is slow. Having multiple stocks in one portfolio may contribute greatly to the performance issue. This problem is solved by having the database to store the latest real time data of the specific stock/symbol as long as it is accessed no more than 5 minutes of the original accessed time.<br><br>
+                		</div>
+                        </div>
+                      </div>
+
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                <body>
+
+                <div class="w3-container">
+      <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                  <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo6">Q: I am given summaries and statistics on one of my stock/symbol, but the prediction is empty (N/A). Why?
+          </button>
+              <div id="demo6" class="collapse">
+              <br>
+                Ans: We use different datafeed APIs for realtime tracking and prediction. The prediction API covers most of the stock in the U.S. but not all of them.
+                <br><br>
+              </div>
+                  </div>
+                </div>
+
+                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <body>
+
+                      <div class="w3-container">
+						<div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                        <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo1">Q: My preferred stock gives me 'Error' and '0.0000' as its values, why? 
+                </button>
+                		<div id="demo1" class="collapse">
+                		<br>
+                			Ans: This error has three different causes. <br>The first issue is that the stock/symbol exists, but the API returns an error (e.g. API crashed). To solve this, simply refresh the page. <br><br>The second issue would be the stock/symbol exists in the database, but not in the API, hence API retuns an error. There are no solution for this error, instead search for another stock/symbol. <br><br>The final issue would be that the API is offline/down, hence API returns an error. To solve this, simply wait for additional 3 ~ 15 minutes for the API to restart.<br><br>
+                		</div>
+                        </div>
+                      </div>
+
+                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <body>
+
+                      <div class="w3-container">
+            <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                        <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo2">Q: I entered my portfolio details (name and id) in the address bar manually and it returns me "Portfolio does not exist", why?
+                </button>
+                    <div id="demo2" class="collapse">
+                    <br>
+                      Ans: This error is most likely caused by misspelled in the name of the portfolio (which must be accurate) and/or the number of the id of the portfolio. This feature is introduced to prevent security breach or system error.
+                      <br><br>
+                    </div>
+                        </div>
+                      </div>
+           
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <body>
+
+                      <div class="w3-container">
+            <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                        
+                        <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo3">Q: I encountered "You are not authorized to view this page" while I was browsing my portfolio(s) by directly navigating from the address bar, why?
+                </button>
+
+                    <div id="demo3" class="collapse">
+                    <br>
+                      Ans: This error is a security method to maintain personal privacy of users registered in our service. Make sure you are logined to that account if you wished to access to the portfolio.
+                      <br><br>
+                    </div>
+                        </div>
+                      </div>
+
+                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                <body>
+
+                <div class="w3-container">
+      <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                  <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo4">Q: I tried accessing to the service and encountered "Unauthorized. The server could not verify ..." error message, why?
+          </button>
+              <div id="demo4" class="collapse">
+              <br>
+                Ans: This error is a security method to maintain personal privacy of users registered in our service. Make sure you are logined to that account if you wished to access to the portfolio.
+                <br><br>
+              </div>
+                  </div>
+                </div>
+
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <body>
+
+                <div class="w3-container">
+      <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                  <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo5">Q: What are MA, EMA, MACD, MOM charts of each stock?
+          </button>
+              <div id="demo5" class="collapse">
+              <br>
+                Ans: For additional information of the terms, click on the title (link) that will to a page with details regarding to the term.
+                <br><br>
+              </div>
+                  </div>
+                </div>
+
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <body>
+
+                <div class="w3-container">
+      <div class="w3-panel w3-border w3-border-red w3-hover-border-green">
+                  <button type="button" style="white-space: normal" class="btn btn-link" data-toggle="collapse" data-target="#demo7">Q: What is the prediction algorithm used in the stock page?
+          </button>
+              <div id="demo7" class="collapse">
+              <br>
+                Ans: We use supervised learning to predict tomorrow's trend for each individual stock. The model we choose is Support Vector Machine classifier. We train the SVM for each individual stock based on all the historical data and classify it as rise or fall. In other words, given the data at time t, we train the model to predict trend(rise/fall) at time t+1.<br>
+                If the model predict "N/A", it means our model fail to learn this stock. The accuracy is around 50~65% and it's various from stock to stock.<br><br>
+
+                The features are 23 technical indicators which the traders used in quantatitive analysis:<br>
+       'MA_5', 'MA_7', 'MA_10', 'EMA_5', 
+       'EMA_12', 'EMA_26', 'Momentum_1', 'Momentum_4', 'MACD', 'MACDsignal', 
+       'MACDdiff', 'TSI_7_4', 'BollingerB_5', 'Bollinger%b_5', 'OBV_1', 
+       'Mass Index', 'Force_1', 'SO%k', 'SO%d_3', 'Chaikin', 'Disparity_5', 
+       'Disparity_10', 'STD_7'<br><br>
+
+The method is developed based on these two papers:<br>
+<a href="http://lcsd2.svms.org/finance/Kim2003.pdf">http://lcsd2.svms.org/finance/Kim2003.pdf</a><br>
+<a href="http://sci2s.ugr.es/keel/pdf/specific/articulo/ESA00.pdf">http://sci2s.ugr.es/keel/pdf/specific/articulo/ESA00.pdf</a><br><br>
+
+The formulas of technical indicators follows (with tiny modifications):<br>
+<a href="https://www.quantopian.com/posts/technical-analysis-indicators-without-talib-code">https://www.quantopian.com/posts/technical-analysis-indicators-without-talib-code</a><br><br>
+
+Pipline<br>
+Raw Data: daily historical prices of each individual stock (OHLCV) (source: Quandl)<br>
+Preprocess: calculate 27 technical indicators as features and then scale the dataset to zero variance<br>
+Feature Selection: use cross validation to eliminate 4 features which doesn't significant impact on classification<br>
+Model: SVM with Linear Kernel (speed & accuracy trade-off)<br><br>
+
+Challenges<br>
+- Data source<br>
+- Feature selection<br>
+- Speed & Accuracy trade-off
+                <br><br>
+              </div>
+                  </div>
+                </div>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</Form>
+</body>
+</html>

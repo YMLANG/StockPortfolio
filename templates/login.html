@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Catamaran|Gloria+Hallelujah" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+html, body{
+    height: 100%;
+    background: #F7A278;
+    background: linear-gradient(to bottom right, #F7A278, #E56399);
+}
+
+div.logo {
+    font-size: 150px;
+}
+
+div.textbox {
+    font-size: 25px;
+}
+
+div.navSize {
+    font-size: 17px;
+}
+
+input{
+border-radius: 30px;
+}
+
+</style>
+</head>
+<body>
+   <div class="navSize">
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+          <img src="/static/home2.png" width="22" height="22" class="d-inline-block align-top" alt="">
+        </a>
+      <a class="navbar-brand" href="/">Niulio
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li><a href="stock">Stock</a></li>
+      </ul>
+      <ul class="nav navbar-nav mr-auto navbar-right">
+        <li><a href="about">About</a></li>
+        <li><a href="faq">FAQ</a></li>
+        <li><a href="/">Log in</a></li>
+        <li><a href="sign_up">Sign up</a></li>
+      </ul>
+    </div>
+</nav>
+
+    </div>
+<br>
+
+<Form method="POST">
+
+    <center>
+    <br><br>
+    <div class="logo">
+    <font color="white" style="font-family: 'Baloo Tammudu', cursive;">Niulio</font>
+  </div>
+
+  {% if message %}
+    <h4>{{ message }}</h4>
+  {% endif %}
+
+  <div class="textbox">
+	<input name="username" style="text-align: center" placeholder="Enter your username" />
+	<br><br>
+	<input type="password" style="text-align: center" name="password" placeholder="Enter your password" />
+  </div>
+  <br>
+
+	<br>
+    <br>
+    <button type="submit" class="btn btn-info btn-lg">Log in</button>
+    <a href="sign_up" class="btn btn-info btn-lg" role="button">Sign up</a>
+    </center>
+</Form>
+</body>
+</html>
