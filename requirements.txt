@@ -11,7 +11,7 @@ Quandl==3.3.0
 requests==2.18.4
 urllib3==1.22
 virtualenv==15.1.0
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 scikit-learn==0.19.1
 pandas==0.23.0
 numpy==1.14.3
