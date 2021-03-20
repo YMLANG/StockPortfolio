@@ -30,7 +30,7 @@ ipywidgets==5.2.2
 itsdangerous==0.24
 jdcal==1.0
 jedi==0.10.0
-Jinja2==2.10
+Jinja2==2.11.3
 jsonschema==2.3.0
 jupyter-client==5.2.0
 jupyter-console==5.2.0
