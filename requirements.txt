@@ -9,7 +9,7 @@ Jinja2==2.10
 MarkupSafe==1.0
 Quandl==3.3.0
 requests==2.18.4
-urllib3==1.22
+urllib3==1.26.5
 virtualenv==15.1.0
 Werkzeug==0.12.2
 scikit-learn==0.19.1
